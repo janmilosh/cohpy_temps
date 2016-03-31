@@ -1,0 +1,1 @@
+web: python cohpy_temps/api.py
