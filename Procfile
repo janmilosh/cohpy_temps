@@ -1,1 +1,1 @@
-web: python cohpy_temps/api.py
+web: python api.py
