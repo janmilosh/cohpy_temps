@@ -1,0 +1,113 @@
+body {
+  margin: 0;
+  padding: 0 0 30px;
+  background: #f1f1f1;
+  color: #555;
+  font-family: helvetica, sans-serif;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.wrapper {
+  width: 1188px;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 0 15px;
+}
+
+.row {
+  margin: 0 -15px;
+}
+
+.centered {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.visible-xs {
+  display: none;
+}
+
+#graph {
+  width: 802px;
+  margin: 0 auto 30px;
+}
+
+svg {
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+  background: #fff;
+  display: block;
+  margin: 0 auto 30px;
+}
+
+.record-line {
+  stroke: #D65511;
+  stroke-width: 1px;
+}
+
+.record-text {
+  fill: #D65511;
+}
+
+.normal-line {
+  stroke: #5A78BB;
+  stroke-width: 1px;
+}
+
+.normal-text {
+  fill: #5A78BB;
+}
+
+.normal-rect {
+  fill: #f4f4f4;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #5A78BB;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+text.title,
+text.label {
+  font-family: helvetica;
+  fill: #5A78BB;
+}
+
+.title {
+  font-size: 20px;
+}
+
+.label {
+  font-size: 16px;
+}
+
+.tick text {
+  font-family: helvetica;
+  fill: #5A78BB;
+  text-transform: lowercase;
+}
+
+.line {
+  fill: none;
+  stroke: #5A78BB;
+  stroke-width: 3px;
+}

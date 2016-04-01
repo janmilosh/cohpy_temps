@@ -1,61 +1,19 @@
+import json
 import os
-from flask import Flask
-from flask_restful import Resource, Api, abort, reqparse
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
-api = Api(app)
 
-TODOS = {
-    'todo1': {'task': 'build an API'},
-    'todo2': {'task': '?????'},
-    'todo3': {'task': 'profit?'},
+TEMPS = {
+    'January':  {'01-28-2009': '32', '01-27-2010': '35', '01-26-2011': '40', '01-25-2012': '55', '01-23-2013': '0', '01-29-2014': '15', '01-25-2015': '22', '01-26-2016': '40'},
+    'February': {'02-28-2009': '32', '02-27-2010': '35', '02-26-2011': '40', '02-25-2012': '55', '02-23-2013': '0', '02-29-2014': '15', '02-25-2015': '22', '02-26-2016': '40'},
+    'March':    {'03-28-2009': '32', '03-27-2010': '35', '03-26-2011': '40', '03-25-2012': '55', '03-23-2013': '0', '03-29-2014': '15', '03-25-2015': '22', '03-26-2016': '40'},
 }
 
-def abort_if_todo_doesnt_exist(todo_id):
-    if todo_id not in TODOS:
-        abort(404, message="Todo {} doesn't exist".format(todo_id))
-
-parser = reqparse.RequestParser()
-parser.add_argument('task')
-
-
-# Todo
-# shows a single todo item and lets you delete a todo item
-class Todo(Resource):
-    def get(self, todo_id):
-        abort_if_todo_doesnt_exist(todo_id)
-        return TODOS[todo_id]
-
-    def delete(self, todo_id):
-        abort_if_todo_doesnt_exist(todo_id)
-        del TODOS[todo_id]
-        return '', 204
-
-    def put(self, todo_id):
-        args = parser.parse_args()
-        task = {'task': args['task']}
-        TODOS[todo_id] = task
-        return task, 201
-
-
-# TodoList
-# shows a list of all todos, and lets you POST to add new tasks
-class TodoList(Resource):
-    def get(self):
-        return TODOS
-
-    def post(self):
-        args = parser.parse_args()
-        todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
-        todo_id = 'todo%i' % todo_id
-        TODOS[todo_id] = {'task': args['task']}
-        return TODOS[todo_id], 201
-
-##
-## Actually setup the Api resource routing here
-##
-api.add_resource(TodoList, '/todos')
-api.add_resource(Todo, '/todos/<todo_id>')
+@app.route('/')
+def Temps():
+    json_data = json.dumps(TEMPS)
+    return render_template('index.html', data=json_data)
 
 
 if __name__ == '__main__':
