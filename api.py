@@ -10,10 +10,14 @@ TEMPS = {
     'March':    {'03-28-2009': '32', '03-27-2010': '35', '03-26-2011': '40', '03-25-2012': '55', '03-23-2013': '0', '03-29-2014': '15', '03-25-2015': '22', '03-26-2016': '40'},
 }
 
-@app.route('/')
-def Temps():
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
+@app.route('/data', methods=['GET'])
+def data():
     json_data = json.dumps(TEMPS)
-    return render_template('index.html', data=json_data)
+    return json_data
 
 
 if __name__ == '__main__':
