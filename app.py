@@ -2,8 +2,29 @@ import json
 import os
 import data_handler as dh
 from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'postgres://localhost/cohpy_temps')
+db = SQLAlchemy(app)
+
+class Temp(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_string = db.Column(db.String(10))
+    temp = db.Column(db.String(8))
+    timestamp = db.Column(db.DateTime)
+
+    def __init__(self, date_string, temp, timestamp=None):
+        self.date_string = date_string
+        self.temp = temp
+        if timestamp is None:
+            timestamp = datetime.utcnow()
+        self.timestamp = timestamp
+    
+    def __repr__(self):
+        return '<Temp %r>' % self.date_string
 
 TEMPS = {
   "January": [

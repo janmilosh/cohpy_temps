@@ -57,7 +57,7 @@ $(function() {
       .text( function (d) { return getDayMonth(d.date) + ', ' + d.temp + '°F'; })
       .attr('font-family', 'helvetica')
       .attr('font-size', '16px')
-      .attr('fill', function(d) { return d.color });
+      .attr('fill', 'green');
 
     var yearAxis = d3.svg.axis()
       .scale(dataScales.year)
