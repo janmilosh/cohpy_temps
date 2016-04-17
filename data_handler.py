@@ -54,6 +54,14 @@ def _meeting_day(year, month):
     else:
         return _normal_meeting_day(mondays)
 
+def _mondays_in_month(year, month):
+    mondays = []
+    month_matrix = calendar.monthcalendar(year, month)
+    for week in month_matrix:
+        if week[0] > 0:
+            mondays.append(week[0])
+    return mondays
+
 def _normal_meeting_day(mondays):
     return mondays[-1]
 
@@ -65,14 +73,6 @@ def _december_meeting_day(mondays):
         return mondays[1]
     else:
         return mondays[0]
-
-def _mondays_in_month(year, month):
-    mondays = []
-    month_matrix = calendar.monthcalendar(year, month)
-    for week in month_matrix:
-        if week[0] > 0:
-            mondays.append(week[0])
-    return mondays
 
 def _columbus_historical_max_temp(isodate):
     date_list = isodate.split('-')
