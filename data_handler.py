@@ -10,7 +10,9 @@ WU_API_KEY = os.environ.get('WU_API_KEY')
 
 def meeting_temps():
     iso_dates = _meeting_iso_dates()
+    # get everything from database
     for iso_date in iso_dates:
+        #do the following if not in database, add to dates and save new date/temp
         print iso_date
         print _columbus_historical_max_temp(iso_date)
         print 
