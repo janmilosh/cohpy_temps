@@ -3,7 +3,7 @@ $(function() {
   var margin = {top: 60, right: 75, bottom: 75, left: 75};
   var selectedMonth = 'January'; // make this the current month
 
-  d3.json('/data', function(data) {
+  d3.json('../fake_data.json', function(data) {
     responseData = data;
     makeGraph();
   });
@@ -24,7 +24,7 @@ $(function() {
     var height = svgHeight - margin.top - margin.bottom;
     var width = svgWidth - margin.left - margin.right;
     var monthData = responseData[selectedMonth]
-    var dataRanges = getDataRanges(monthData);
+    var dataRanges = getDataRanges(monthData.temps);
     var dataScales = getDataScales(dataRanges, width, height)    
     
     var svgSelection = d3.select('svg')
@@ -35,7 +35,7 @@ $(function() {
 
     var dataPoints = svgSelection
       .selectAll('circle')
-      .data(monthData)
+      .data(monthData.temps)
       .enter()
       .append('circle');
 
@@ -47,17 +47,17 @@ $(function() {
 
     var text = svgSelection
       .selectAll('text')
-      .data(monthData)
+      .data(monthData.temps)
       .enter()
       .append('text');
 
     var dataLabels = text
       .attr('x', function(d) { return dataScales.year(getYear(d.date)) + 10; })
       .attr('y', function(d) { return dataScales.temp(d.temp) - 10; })
-      .text( function (d) { return getDayMonth(d.date) + ', ' + d.temp + '°F'; })
+      .text( function (d) { return getDayMonth(d.date) + ', ' + d.temp + ' \xB0F'; })
       .attr('font-family', 'helvetica')
       .attr('font-size', '16px')
-      .attr('fill', function(d) { return d.color });
+      .attr('fill', 'green');
 
     var yearAxis = d3.svg.axis()
       .scale(dataScales.year)
