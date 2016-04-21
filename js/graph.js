@@ -3,7 +3,7 @@ $(function() {
   var margin = {top: 60, right: 75, bottom: 75, left: 75};
   var selectedMonth = 'January'; // make this the current month
 
-  d3.json('fake_data.json', function(data) {
+  d3.json('real_data.json', function(data) {
     responseData = data;
     makeGraph();
   });
