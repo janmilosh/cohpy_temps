@@ -103,7 +103,8 @@ class TempData(object):
         year = date_list[2]
         month = date_list[0]
         day = date_list[1]
-        url = "http://api.wunderground.com/api/{}/history_{}{}{}/q/OH/Columbus.json".format(WU_API_KEY, year, month, day)
+        url = "http://api.wunderground.com/api/{}/history_{}{}{}/q/OH/KCMH.json".format(WU_API_KEY, year, month, day)
+        print url
         response = requests.get(url)
         try:
             return json.loads(response.content)['history']['dailysummary'][0]['maxtempi']
