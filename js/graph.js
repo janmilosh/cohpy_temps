@@ -18,6 +18,8 @@ $(function() {
     makeGraph()
   })
 
+  // $('button')[0].click()
+
   function makeGraph() {
     $('svg').empty();
     setSizes();
@@ -57,7 +59,7 @@ $(function() {
       .text( function (d) { return getDayMonth(d.date) + ', ' + d.temp + ' \xB0F'; })
       .attr('font-family', 'helvetica')
       .attr('font-size', '16px')
-      .attr('fill', 'green');
+      .attr('fill', 'limegreen');
 
     var yearAxis = d3.svg.axis()
       .scale(dataScales.year)
@@ -85,7 +87,7 @@ $(function() {
       .attr('y', height + margin.bottom/2)
       .attr('dy', '16')
       .attr('text-anchor', 'middle')  
-      .style('font-size', '16px') 
+      .style('font-size', '18px') 
       .text(selectedMonth + ' Meetings');
 
     svgSelection.append('text') // Add temp-axis label, similar to above, but with transform
@@ -95,7 +97,7 @@ $(function() {
       .attr('x', 0 - height/2)
       .attr('dy', '-8')
       .attr('text-anchor', 'middle')  
-      .style('font-size', '16px') 
+      .style('font-size', '18px') 
       .text('Temperatures');
 
     // svgSelection.append('text') // Graph title

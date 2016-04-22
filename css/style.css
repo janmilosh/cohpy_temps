@@ -1,8 +1,9 @@
 body {
   margin: 0;
   padding: 0 0 30px;
-  background: #f1f1f1;
-  color: #555;
+  background: #333;
+  background: url(../images/moulin.png);
+  color: white;
   font-family: helvetica, sans-serif;
 }
 
@@ -45,37 +46,43 @@ html {
   display: none;
 }
 
+button {
+  height: 32px;
+  width: 86px;
+  border: none;
+  color: white;
+  background: #0090FF;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+}
+
+button:first-of-type {
+  margin-left: 4px;
+}
+
+button:hover, button:focus {
+  background: limegreen;
+  outline: none;
+}
+
+h1 {
+  font-weight: normal;
+  text-align: center;
+  color: white;
+}
+
 svg {
-  box-shadow: 0 0 6px rgba(0,0,0,0.2);
-  background: #fff;
+  box-shadow: inset 0 0 6px rgba(0,0,0,1);
+  background: #222;
   width: 100%;
-}
-
-.record-line {
-  stroke: #D65511;
-  stroke-width: 1px;
-}
-
-.record-text {
-  fill: #D65511;
-}
-
-.normal-line {
-  stroke: #5A78BB;
-  stroke-width: 1px;
-}
-
-.normal-text {
-  fill: #5A78BB;
-}
-
-.normal-rect {
-  fill: #f4f4f4;
 }
 
 .axis path, .axis line {
   fill: none;
-  stroke: #5A78BB;
+  stroke: #0090FF;
+  stroke: white;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
@@ -83,7 +90,7 @@ svg {
 text.title,
 text.label {
   font-family: helvetica;
-  fill: #5A78BB;
+  fill: #0090FF;
 }
 
 .title {
@@ -96,13 +103,14 @@ text.label {
 
 .tick text {
   font-family: helvetica;
-  fill: #5A78BB;
+  fill: #0090FF;
+  fill: white;
   text-transform: lowercase;
 }
 
 .line {
   fill: none;
-  stroke: #5A78BB;
+  stroke: #0090FF;
   stroke-width: 3px;
 }
 

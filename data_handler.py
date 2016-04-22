@@ -8,22 +8,14 @@ from datetime import date
 
 WU_API_KEY = os.environ.get('WU_API_KEY')
 
-class Data(object):
+class TempData(object):
     def __init__(self):
         self.temp_dict = {}
 
-    def _meeting_temps(self):
-        meeting_dates = self._meeting_dates()
-        
-        for meeting_date in meeting_dates:
-            iso_date = meeting_date.isoformat()
-            formatted_date = meeting_date.strftime("%m-%d-%Y")
-            meeting_month =  meeting_date.strftime("%B")
-            temp = self._columbus_historical_max_temp(iso_date)
-            if not self.temp_dict.get(meeting_month):
-                self.temp_dict[meeting_month] = { "temps": [] }
-            self.temp_dict[meeting_month]["temps"].append( { "date": formatted_date, "temp": temp } )
-            time.sleep(7)   
+    def run(self):
+        self._write_meeting_dates_to_file()
+        self._add_meeting_dates_and_temps_to_dict()
+        self._write_dict_to_json_file()
 
     def _meeting_dates(self):
         months_years = self._meeting_months_and_years()
@@ -35,6 +27,29 @@ class Data(object):
             if day != None:
                 meeting_days.append(date(year, month, day))
         return meeting_days
+
+    def _write_meeting_dates_to_file(self):
+        meeting_dates = self._meeting_dates()
+        with open('meeting_dates.txt', 'wb') as date_file:
+            for meeting_date in meeting_dates:
+                date_file.write(meeting_date.strftime("%-m/%-d/%Y") + "\n")
+
+    def _add_meeting_dates_and_temps_to_dict(self):
+        meeting_dates = self._meeting_dates()
+        for meeting_date in meeting_dates:
+            formatted_date = meeting_date.strftime("%m-%d-%Y")
+            meeting_month =  meeting_date.strftime("%B")
+            temp = self._columbus_historical_max_temp(formatted_date)
+            print formatted_date, temp
+            if not self.temp_dict.get(meeting_month):
+                self.temp_dict[meeting_month] = { "temps": [] }
+            self.temp_dict[meeting_month]["temps"].append( { "date": formatted_date, "temp": temp } )
+            time.sleep(7)
+
+    def _write_dict_to_json_file(self):
+        with open('real_data.json', 'w') as outfile:
+            json.dump(self.temp_dict, outfile)
+        print self.temp_dict
 
     def _meeting_months_and_years(self):
         year = 2009 # first meeting year
@@ -83,11 +98,11 @@ class Data(object):
         else:
             return mondays[0]
 
-    def _columbus_historical_max_temp(self, isodate):
-        date_list = isodate.split('-')
-        year = date_list[0]
-        month = date_list[1]
-        day = date_list[2]
+    def _columbus_historical_max_temp(self, formatted_date):
+        date_list = formatted_date.split('-')
+        year = date_list[2]
+        month = date_list[0]
+        day = date_list[1]
         url = "http://api.wunderground.com/api/{}/history_{}{}{}/q/OH/Columbus.json".format(WU_API_KEY, year, month, day)
         response = requests.get(url)
         try:
@@ -97,8 +112,5 @@ class Data(object):
 
 
 if __name__ == '__main__':
-    data = Data()
-    data._meeting_temps()
-    with open('real_data.json', 'w') as outfile:
-        json.dump(data.temp_dict, outfile)
-    print data.temp_dict
+    temp_data = TempData()
+    temp_data.run()
