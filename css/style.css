@@ -55,15 +55,21 @@ button {
   font-size: 14px;
   cursor: pointer;
   border-radius: 3px;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
 }
 
 button:first-of-type {
   margin-left: 4px;
 }
 
-button:hover, button:focus {
+button.selected {
   background: limegreen;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:focus {
   outline: none;
 }
 
@@ -81,7 +87,6 @@ svg {
 
 .axis path, .axis line {
   fill: none;
-  stroke: #0090FF;
   stroke: white;
   stroke-width: 2px;
   shape-rendering: crispEdges;
@@ -103,7 +108,6 @@ text.label {
 
 .tick text {
   font-family: helvetica;
-  fill: #0090FF;
   fill: white;
   text-transform: lowercase;
 }
@@ -112,6 +116,15 @@ text.label {
   fill: none;
   stroke: #0090FF;
   stroke-width: 3px;
+}
+
+.prediction-line {
+  stroke: #0090FF;
+  stroke-width: 2px;
+}
+
+.prediction-text {
+  fill: #0090FF;
 }
 
 @media (max-width: 1000px) {

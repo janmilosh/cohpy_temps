@@ -1,6 +1,6 @@
 $(function() {
   var windowWidth, wrapperWidth, svgWidth, svgHeight, responseData;
-  var margin = {top: 60, right: 75, bottom: 75, left: 75};
+  var margin = {top: 80, right: 75, bottom: 75, left: 75};
   var selectedMonth = 'January'; // make this the current month
 
   d3.json('real_data.json', function(data) {
@@ -14,21 +14,21 @@ $(function() {
 
   $('button').on('click', function() {
     selectedMonth = $(this).text();
+    $('button').removeClass('selected');
+    $(this).addClass('selected');
     $('.month').empty();
     makeGraph()
   })
-
-  // $('button')[0].click()
 
   function makeGraph() {
     $('svg').empty();
     setSizes();
     var height = svgHeight - margin.top - margin.bottom;
     var width = svgWidth - margin.left - margin.right;
-    var monthData = responseData[selectedMonth]
+    var monthData = responseData[selectedMonth];
     var dataRanges = getDataRanges(monthData.temps);
-    var dataScales = getDataScales(dataRanges, width, height)    
-    
+    var dataScales = getDataScales(dataRanges, width, height);
+    var predictedTemp = responseData[selectedMonth].prediction;    
     var svgSelection = d3.select('svg')
       .attr('height', svgHeight)
       .attr('width', svgWidth)
@@ -44,7 +44,7 @@ $(function() {
     var dataAttributes = dataPoints
       .attr('cx', function (d) { return dataScales.year(getYear(d.date)); })
       .attr('cy', function(d) { return dataScales.temp(d.temp); })
-      .attr('r', 10)
+      .attr('r', 6)
       .attr('fill', 'limegreen');
 
     var text = svgSelection
@@ -54,11 +54,11 @@ $(function() {
       .append('text');
 
     var dataLabels = text
-      .attr('x', function(d) { return dataScales.year(getYear(d.date)) + 10; })
-      .attr('y', function(d) { return dataScales.temp(d.temp) - 10; })
+      .attr('x', function(d) { return dataScales.year(getYear(d.date)) + 8; })
+      .attr('y', function(d) { return dataScales.temp(d.temp) - 8; })
       .text( function (d) { return getDayMonth(d.date) + ', ' + d.temp + ' \xB0F'; })
       .attr('font-family', 'helvetica')
-      .attr('font-size', '16px')
+      .attr('font-size', '14px')
       .attr('fill', 'limegreen');
 
     var yearAxis = d3.svg.axis()
@@ -100,12 +100,22 @@ $(function() {
       .style('font-size', '18px') 
       .text('Temperatures');
 
-    // svgSelection.append('text') // Graph title
-    //   .attr('class', 'month')
-    //   .attr('x', (width/2))
-    //   .attr('y', 0 - (margin.top/2))
-    //   .attr('text-anchor', 'middle')
-    //   .text(selectedMonth);
+    svgSelection.append('line') // Add line for the prediction
+      .attr('x1', 0)
+      .attr('x2', width)
+      .attr('y2', dataScales.temp(predictedTemp))
+      .attr('y1', dataScales.temp(predictedTemp))
+      .style('stroke-dasharray', ('8, 1'))
+      .attr('class', 'prediction-line');
+
+    svgSelection.append('text') // Add text for prediction
+      .attr('class', 'prediction-text')
+      .attr('x', width/2)
+      .attr('y', 0 - margin.top/2)
+      .attr('dy', '0')
+      .attr('text-anchor', 'middle')  
+      .style('font-size', '22px') 
+      .text(selectedMonth + ' prediction: ' + predictedTemp + ' \xB0F');
   }
 
   function getDataScales(dataRanges, width, height) {
@@ -138,6 +148,6 @@ $(function() {
     // windowWidth = $(window).width();
     wrapperWidth = $('.wrapper').width();
     svgWidth = wrapperWidth;
-    svgHeight = svgWidth * 5/8;
+    svgHeight = svgWidth * 0.53;
   }
 });
