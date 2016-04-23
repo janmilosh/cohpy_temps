@@ -35,6 +35,23 @@ $(function() {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
+    svgSelection.append('line') // Add line for the prediction
+      .attr('x1', 0)
+      .attr('x2', width)
+      .attr('y2', dataScales.temp(predictedTemp))
+      .attr('y1', dataScales.temp(predictedTemp))
+      .style('stroke-dasharray', ('8, 1'))
+      .attr('class', 'prediction-line');
+
+    svgSelection.append('text') // Add text for prediction
+      .attr('class', 'prediction-text')
+      .attr('x', width/2)
+      .attr('y', 0 - margin.top/2)
+      .attr('dy', '0')
+      .attr('text-anchor', 'middle')  
+      .style('font-size', '22px') 
+      .text(selectedMonth + ' prediction: ' + predictedTemp + ' \xB0F');
+
     var dataPoints = svgSelection
       .selectAll('circle')
       .data(monthData.temps)
@@ -99,23 +116,6 @@ $(function() {
       .attr('text-anchor', 'middle')  
       .style('font-size', '18px') 
       .text('Temperatures');
-
-    svgSelection.append('line') // Add line for the prediction
-      .attr('x1', 0)
-      .attr('x2', width)
-      .attr('y2', dataScales.temp(predictedTemp))
-      .attr('y1', dataScales.temp(predictedTemp))
-      .style('stroke-dasharray', ('8, 1'))
-      .attr('class', 'prediction-line');
-
-    svgSelection.append('text') // Add text for prediction
-      .attr('class', 'prediction-text')
-      .attr('x', width/2)
-      .attr('y', 0 - margin.top/2)
-      .attr('dy', '0')
-      .attr('text-anchor', 'middle')  
-      .style('font-size', '22px') 
-      .text(selectedMonth + ' prediction: ' + predictedTemp + ' \xB0F');
   }
 
   function getDataScales(dataRanges, width, height) {

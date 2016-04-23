@@ -13,11 +13,10 @@ class TempData(object):
         self.temp_dict = {}
 
     def run(self):
-        # self._write_meeting_dates_to_file()
-        # self._add_meeting_dates_and_temps_to_dict()
+        self._write_meeting_dates_to_file()
+        self._add_meeting_dates_and_temps_to_dict()
         self._add_prediction_to_dict()
         self._write_dict_to_json_file()
-        print self.temp_dict
 
     def _meeting_dates(self):
         months_years = self._meeting_months_and_years()
@@ -49,7 +48,6 @@ class TempData(object):
             time.sleep(7)
 
     def _add_prediction_to_dict(self):
-        self.temp_dict = {'February': {'temps': [{'date': '02-22-2010', 'temp': u'40'}, {'date': '02-28-2011', 'temp': u'63'}, {'date': '02-27-2012', 'temp': u'58'}, {'date': '02-25-2013', 'temp': u'46'}, {'date': '02-24-2014', 'temp': u'34'}, {'date': '02-23-2015', 'temp': u'19'}, {'date': '02-29-2016', 'temp': u'57'}]}, 'October': {'temps': [{'date': '10-26-2009', 'temp': u'67'}, {'date': '10-25-2010', 'temp': u'71'}, {'date': '10-31-2011', 'temp': u'52'}, {'date': '10-29-2012', 'temp': u'41'}, {'date': '10-28-2013', 'temp': u'62'}, {'date': '10-27-2014', 'temp': u'79'}, {'date': '10-26-2015', 'temp': u'62'}]}, 'March': {'temps': [{'date': '03-29-2010', 'temp': u'50'}, {'date': '03-28-2011', 'temp': u'42'}, {'date': '03-26-2012', 'temp': u'52'}, {'date': '03-25-2013', 'temp': u'36'}, {'date': '03-31-2014', 'temp': u'65'}, {'date': '03-30-2015', 'temp': u'57'}, {'date': '03-28-2016', 'temp': u'59'}]}, 'August': {'temps': [{'date': '08-30-2010', 'temp': u'93'}, {'date': '08-29-2011', 'temp': u'78'}, {'date': '08-27-2012', 'temp': u'84'}, {'date': '08-26-2013', 'temp': u'90'}, {'date': '08-25-2014', 'temp': u'87'}, {'date': '08-31-2015', 'temp': u'86'}]}, 'September': {'temps': [{'date': '09-28-2009', 'temp': u'65'}, {'date': '09-27-2010', 'temp': u'61'}, {'date': '09-26-2011', 'temp': u'70'}, {'date': '09-24-2012', 'temp': u'68'}, {'date': '09-30-2013', 'temp': u'75'}, {'date': '09-29-2014', 'temp': u'84'}, {'date': '09-28-2015', 'temp': u'82'}]}, 'December': {'temps': [{'date': '12-07-2009', 'temp': u'35'}, {'date': '12-06-2010', 'temp': u'25'}, {'date': '12-05-2011', 'temp': u'53'}, {'date': '12-03-2012', 'temp': u'63'}, {'date': '12-09-2013', 'temp': u'35'}, {'date': '12-08-2014', 'temp': u'45'}, {'date': '12-07-2015', 'temp': u'51'}]}, 'June': {'temps': [{'date': '06-28-2010', 'temp': u'85'}, {'date': '06-27-2011', 'temp': u'83'}, {'date': '06-25-2012', 'temp': u'80'}, {'date': '06-24-2013', 'temp': u'87'}, {'date': '06-30-2014', 'temp': u'87'}, {'date': '06-29-2015', 'temp': u'66'}]}, 'April': {'temps': [{'date': '04-26-2010', 'temp': u'57'}, {'date': '04-25-2011', 'temp': u'74'}, {'date': '04-30-2012', 'temp': u'84'}, {'date': '04-29-2013', 'temp': u'65'}, {'date': '04-28-2014', 'temp': u'59'}, {'date': '04-27-2015', 'temp': u'54'}, {'date': '04-25-2016', 'temp': None}]}, 'May': {'temps': [{'date': '05-24-2010', 'temp': u'83'}, {'date': '05-23-2011', 'temp': u'82'}, {'date': '05-21-2012', 'temp': u'87'}, {'date': '05-20-2013', 'temp': u'86'}, {'date': '05-19-2014', 'temp': u'71'}, {'date': '05-18-2015', 'temp': u'79'}]}, 'January': {'temps': [{'date': '01-25-2010', 'temp': u'49'}, {'date': '01-31-2011', 'temp': u'32'}, {'date': '01-30-2012', 'temp': u'50'}, {'date': '01-28-2013', 'temp': u'51'}, {'date': '01-27-2014', 'temp': u'42'}, {'date': '01-26-2015', 'temp': u'27'}, {'date': '01-25-2016', 'temp': u'46'}]}, 'July': {'temps': [{'date': '07-26-2010', 'temp': u'83'}, {'date': '07-25-2011', 'temp': u'89'}, {'date': '07-30-2012', 'temp': u'90'}, {'date': '07-29-2013', 'temp': u'76'}, {'date': '07-28-2014', 'temp': u'76'}, {'date': '07-27-2015', 'temp': u'87'}]}}
         for month in self.temp_dict:
             for meetups_list in self.temp_dict[month]:
                 temp_list = []
@@ -125,7 +123,6 @@ class TempData(object):
         month = date_list[0]
         day = date_list[1]
         url = "http://api.wunderground.com/api/{}/history_{}{}{}/q/OH/KCMH.json".format(WU_API_KEY, year, month, day)
-        print url
         response = requests.get(url)
         try:
             return json.loads(response.content)['history']['dailysummary'][0]['maxtempi']
